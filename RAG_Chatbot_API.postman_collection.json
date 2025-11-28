@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "rag-chatbot-api",
+		"name": "RAG Chatbot API",
+		"description": "Collection for testing RAG Chatbot API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the API is running"
+			},
+			"response": []
+		},
+		{
+			"name": "List Static Files",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/static-files",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"static-files"
+					]
+				},
+				"description": "List all static files in static_data folder"
+			},
+			"response": []
+		},
+		{
+			"name": "List Uploaded Files",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/files",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"files"
+					]
+				},
+				"description": "List all uploaded files"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload File",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": [],
+							"description": "Upload a PDF or CSV file"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/upload",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"upload"
+					]
+				},
+				"description": "Upload and process a PDF or CSV file"
+			},
+			"response": []
+		},
+		{
+			"name": "Chat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"What information do you have?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/chat",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chat"
+					]
+				},
+				"description": "Chat with the RAG chatbot"
+			},
+			"response": []
+		},
+		{
+			"name": "Clear Vector Store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/clear",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"clear"
+					]
+				},
+				"description": "Clear all uploaded data and vector store"
+			},
+			"response": []
+		},
+		{
+			"name": "Rebuild Pipeline",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/rebuild",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"rebuild"
+					]
+				},
+				"description": "Rebuild RAG pipeline from static files"
+			},
+			"response": []
+		},
+		{
+			"name": "Register Student",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"+1234567890\",\n    \"address\": \"123 Main St, City, State\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/student/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"register"
+					]
+				},
+				"description": "Register a new student with auto-generated student ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/student/STU-20251125-XXXX",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"STU-20251125-XXXX"
+					]
+				},
+				"description": "Get student information by student ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student by Email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/student/email/john.doe@example.com",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"email",
+						"john.doe@example.com"
+					]
+				},
+				"description": "Get student information by email"
+			},
+			"response": []
+		},
+		{
+			"name": "List All Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/students?limit=100&offset=0",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"students"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "100"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				},
+				"description": "List all students with pagination"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/student/search?q=john",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "john"
+						}
+					]
+				},
+				"description": "Search students by name, email, or student ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Student",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"John Updated\",\n    \"phone\": \"+9876543210\",\n    \"address\": \"456 New St, City, State\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/student/STU-20251125-XXXX",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"STU-20251125-XXXX"
+					]
+				},
+				"description": "Update student information"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/student/STU-20251125-XXXX",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"student",
+						"STU-20251125-XXXX"
+					]
+				},
+				"description": "Delete a student record"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}
+

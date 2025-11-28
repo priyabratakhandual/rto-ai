@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Environment variables
+.env
+
+# Uploads and data
+uploads/
+vector_store/
+*.db
+students.db
+
+# Static data files (but keep the folder structure)
+static_data/*
+!static_data/.gitkeep
+!static_data/README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
