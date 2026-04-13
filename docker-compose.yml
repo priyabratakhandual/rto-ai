@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  rto-ai:
+    build: .
+    container_name: rto-ai-app
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./uploads:/app/uploads
+      - ./static_data:/app/static_data
+      - ./vector_store:/app/vector_store
+    expose:
+      - "5000"
+
+  nginx:
+    image: nginx:latest
+    container_name: rto-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - rto-ai
+    restart: always
