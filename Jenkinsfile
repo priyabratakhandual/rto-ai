@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "priyabratakhandual/rto-ai"
         BUILD_TAG = "${BUILD_NUMBER}"
+        CONTAINER_NAME = "rto-ai"
     }
 
     stages {
@@ -42,6 +43,25 @@ pipeline {
                 sh '''
                 docker push $DOCKER_IMAGE:latest
                 docker push $DOCKER_IMAGE:$BUILD_TAG
+                '''
+            }
+        }
+
+        stage('Deploy Locally') {
+            steps {
+                sh '''
+                echo "Pull latest image"
+                docker pull $DOCKER_IMAGE:latest
+
+                echo "Stop and remove old container"
+                docker stop $CONTAINER_NAME || true
+                docker rm $CONTAINER_NAME || true
+
+                echo "Run new container"
+                docker run -d \
+                -p 5000:5000 \
+                --name $CONTAINER_NAME \
+                $DOCKER_IMAGE:latest
                 '''
             }
         }
