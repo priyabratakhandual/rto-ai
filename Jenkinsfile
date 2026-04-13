@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     environment {
         DOCKER_IMAGE = "priyabratakhandual/rto-ai"
         BUILD_TAG = "${BUILD_NUMBER}"
@@ -47,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Locally') {
+        stage('Deploy Application') {
             steps {
                 sh '''
                 echo "Pull latest image"
@@ -57,11 +61,20 @@ pipeline {
                 docker stop $CONTAINER_NAME || true
                 docker rm $CONTAINER_NAME || true
 
-                echo "Run new container"
+                echo "Run new container on port 5000 (used by Nginx)"
                 docker run -d \
                 -p 5000:5000 \
                 --name $CONTAINER_NAME \
                 $DOCKER_IMAGE:latest
+                '''
+            }
+        }
+
+        stage('Restart Nginx (optional but safe)') {
+            steps {
+                sh '''
+                echo "Reloading Nginx"
+                sudo systemctl reload nginx || true
                 '''
             }
         }
