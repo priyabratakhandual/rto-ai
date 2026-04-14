@@ -8,7 +8,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "priyabratakhandual/rto-ai"
         BUILD_TAG = "${BUILD_NUMBER}"
-        CONTAINER_NAME = "rto-ai"
     }
 
     stages {
@@ -51,30 +50,27 @@ pipeline {
             }
         }
 
-        stage('Deploy Application') {
+        stage('Deploy with Docker Compose') {
             steps {
                 sh '''
-                echo "Pull latest image"
-                docker pull $DOCKER_IMAGE:latest
+                echo "Stopping old single container (if exists)"
+                docker stop rto-ai || true
+                docker rm rto-ai || true
 
-                echo "Stop and remove old container"
-                docker stop $CONTAINER_NAME || true
-                docker rm $CONTAINER_NAME || true
+                echo "Stopping old compose setup"
+                docker-compose down || true
 
-                echo "Run new container on port 5000 (used by Nginx)"
-                docker run -d \
-                -p 5000:5000 \
-                --name $CONTAINER_NAME \
-                $DOCKER_IMAGE:latest
+                echo "Building and starting services (app + nginx)"
+                docker-compose up -d --build
                 '''
             }
         }
 
-        stage('Restart Nginx (optional but safe)') {
+        stage('Verify Deployment') {
             steps {
                 sh '''
-                echo "Reloading Nginx"
-                sudo systemctl reload nginx || true
+                echo "Running containers:"
+                docker ps
                 '''
             }
         }
